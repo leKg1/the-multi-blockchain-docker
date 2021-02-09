@@ -1,0 +1,164 @@
+version: '3.7'
+
+## #Ethereum
+services:
+  rinkeby:
+    command: ["--rpc", "--rpcapi", "eth,net", "--syncmode", "fast", "--rinkeby", "--rpcaddr", "0.0.0.0"]
+    image: lekg1/geth:rinkeby
+    build: .
+    expose:
+      - "8545"
+    ports:
+      - "8545:8545"
+
+## #Ethermint
+services:
+  ethermintdnode0:
+    container_name: ethermintdnode0
+    image: "lekg1/ethermint"
+    ports:
+      - "26656-26657:26656-26657"
+      - "1317:1317"
+      - "8545:8545"
+      - "8546:8546"
+    environment:
+      - ID=0
+      - LOG=${LOG:-ethermintd.log}
+    volumes:
+      - ./init:/ethermint:Z
+    networks:
+      localnet:
+        ipv4_address: 192.168.10.2
+    entrypoint: "sh /ethermint/init.sh"
+
+networks:
+  localnet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.10.0/16
+
+## #RSK node
+services:
+  rsknode:
+    build: .
+
+## #Moonbeam
+services:
+  moonbeam:
+    build: .
+
+services:
+  moonbeam:
+    container_name: moonbeam
+    image: "purestake/moonbase-parachain-testnet"
+    expose:
+      - "30333"
+      - "9933"
+      - "9944"
+      - "9615"
+    ports:
+      - "9933:9933"
+      - "9944:9944"
+      - "9615:9615"
+      - "30333:30333"
+
+## #Namecoin
+services:
+  namecoin:
+    build: .
+    container_name: namecoin
+    ports:
+      - "8334:8334"
+    volumes:
+      - /var/namecoin:/home/nmc/.namecoin
+
+## #Doichain
+services:
+  alice:
+    image: "doichain/node-only:dc0.20.1.6" 
+    hostname: alice
+    ports:
+      - "18543:18332"
+    expose:
+      - "18332"
+    environment:
+      - REGTEST=true
+      - RPC_ALLOW_IP=::/0
+      - CONNECTION_NODE=altbob
+      - RPC_PASSWORD=password
+#    dns_search: ci-doichain.org
+#    volumes:
+#      - ../scripts/docker-compose/resolv.conf:/etc/resolv.conf
+    stdin_open: true
+    tty: true
+    networks:
+      static-network:
+        ipv4_address: 172.20.0.6
+
+  bob:
+    image: "doichain/node-only:dc0.20.1.6"
+    hostname: bob
+    ports:
+      - "18544:18332"
+    expose:
+      - "18332"
+    environment:
+      - REGTEST=true
+      - CONNECTION_NODE=alice
+      - RPC_ALLOW_IP=::/0
+      - RPC_PASSWORD=password
+      - DAPP_URL=http://172.20.0.9:4000/
+#      - DAPP_URL=http://172.20.0.8:4000 #use this when tests run inside docker
+#    volumes:
+#      - ../scripts/docker-compose/resolv.conf:/etc/resolv.conf
+    stdin_open: true
+    tty: true
+    networks:
+      static-network:
+        ipv4_address: 172.20.0.7
+
+  altbob:
+    image: "doichain/node-only:dc0.20.1.6"
+    hostname: altbob
+    ports:
+      - "18545:18332"
+    expose:
+      - "18332"
+    environment:
+      - REGTEST=true
+      - CONNECTION_NODE=alice
+      - RPC_ALLOW_IP=::/0
+      - RPC_PASSWORD=password
+      - DAPP_URL=http://172.20.0.9:4000/
+#      - DAPP_URL=http://172.20.0.8:4000 #use this when tests run inside docker
+    dns_search: ci-doichain.org
+#    volumes:
+#      - ../scripts/docker-compose/resolv.conf:/etc/resolv.conf
+    stdin_open: true
+    tty: true
+    networks:
+      static-network:
+        ipv4_address: 172.20.0.8
+
+  dockerhost:
+    image: qoomon/docker-host
+    cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
+#    volumes:
+#     - ./contrib/scripts/docker-compose/resolv.conf:/etc/resolv.conf
+    restart: on-failure
+    expose:
+      - "3000"
+      - "4000"
+    networks:
+      static-network:
+        ipv4_address: 172.20.0.9
+
+networks:
+  static-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1
