@@ -66,7 +66,8 @@ ethermintd validate-genesis
 
 # Command to run the rest server in a different terminal/window
 echo -e '\nrun the following command in a different terminal/window to run the REST server and JSON-RPC:'
-echo -e "ethermintcli rest-server --laddr \"tcp://localhost:8545\" --unlock-key $KEY --chain-id $CHAINID --trace\n"
+echo -e "ethermintcli rest-server --laddr \"tcp://0.0.0.0:8545\" --unlock-key $KEY --chain-id $CHAINID --trace\n"
 
 # Start the node (remove the --pruning=nothing flag if historical queries are not needed)
-ethermintd start --pruning=nothing --rpc.unsafe --log_level "main:info,state:info,mempool:info" --trace
+ethermintd start --pruning=nothing --rpc.unsafe --log_level "main:info,state:info,mempool:info" --trace &
+ethermintcli rest-server --laddr "tcp://0.0.0.0:8545" --unlock-key $KEY --chain-id ethermint-1
