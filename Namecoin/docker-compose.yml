@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  namecoin:
+    build: .
+    container_name: namecoin
+    ports:
+      - "8334:8334"
+    volumes:
+      - /var/namecoin:/home/nmc/.namecoin

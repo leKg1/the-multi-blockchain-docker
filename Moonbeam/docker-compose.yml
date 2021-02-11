@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  moonbeam:
+    container_name: moonbeam
+    image: "purestake/moonbase"
+    expose:
+      - "30333"
+      - "9933"
+      - "9944"
+      - "9615"
+    ports:
+      - "9933:9933"
+      - "9944:9944"
+      - "9615:9615"
+      - "30333:30333"
+    command: ['/moonbase/moonbase-standalone','--dev','--ws-external','--rpc-external']

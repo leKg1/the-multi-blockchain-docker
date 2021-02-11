@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  rinkeby:
+    command: ["--rpc", "--rpcapi", "eth,net", "--syncmode", "fast", "--rinkeby", "--rpcaddr", "0.0.0.0"]
+    image: lekg1/geth:rinkeby
+    build: .
+    expose:
+      - "8545"
+    ports:
+      - "8545:8545"
