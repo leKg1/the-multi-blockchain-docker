@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  geth-ethereum:
+    command: ["--rpc", "--rpcapi", "eth,net", "--dev", "--rpcaddr", "0.0.0.0", "--datadir", "/datadir"]
+    image: lekg1/geth:ethereum
+    build: .
+    expose:
+      - "8545"
+    ports:
+      - "8545:8545"
+    volumes:
+      - ./conf:/conf:z
+      - ./datadir:/datadir:z

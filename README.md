@@ -1,7 +1,7 @@
 # the-multi-blockchain-docker
   
   - Ethermint node
-  - Ethereum Rinkeby
+  - Ethereum 
   - RSK node
   - Moonbeam
   - Namecoin
@@ -19,6 +19,7 @@
 ```
 truffle migrate --network ethermint #for ethermint
 truffle migrate --network rsk #for rsk
+truffle migrate --network geth #for geth
 truffle migrate --network moonbeam #for moonbeam (polkadot)
 ```
 Make sure to enable the correct configuration in ```truffle-config.js```
@@ -27,3 +28,8 @@ Make sure to enable the correct configuration in ```truffle-config.js```
 5. Documentations
 - MoonBeam 
     - Interacting with Moonbeam using Truffle https://docs.moonbeam.network/getting-started/local-node/using-truffle/
+- Geth 
+    - Run geth node in --dev mode https://geth.ethereum.org/docs/getting-started/dev-mode
+- RSK 
+    - Install rsk node(regtest) https://developers.rsk.co/rsk/node/install/docker/
+    - Deploy smart contract using truffle https://developers.rsk.co/tutorials/ethereum-devs/truffle-test/

@@ -3,3 +3,9 @@ version: '3.7'
 services:
   rsknode:
     build: .
+    expose:
+      - "4444"
+      - "30305"
+    ports:
+      - "4444:4444"
+      - "30305:30305"

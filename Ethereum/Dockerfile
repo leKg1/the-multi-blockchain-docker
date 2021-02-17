@@ -1,4 +1,4 @@
-FROM ethereum/client-go
+FROM ethereum/client-go:v1.9.25
 
 EXPOSE 8545
 
