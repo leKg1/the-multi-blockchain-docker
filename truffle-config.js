@@ -24,7 +24,9 @@ module.exports = {
      host: "127.0.0.1",     // Localhost (default: none)
      port: 8545,            // Standard Ethereum port (default: none)
      network_id: "1",       // Any network (default: none)
-     gasPrice: Math.floor(gasPriceTestnet * 1.1),
+    //  gasPrice: Math.floor(gasPriceTestnet * 1.1),
+     networkCheckTimeout: 1e9,
+    // gas: 64512360 // Gas limit used for deploys
     },
 
     rsk: {

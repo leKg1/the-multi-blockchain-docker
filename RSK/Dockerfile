@@ -23,8 +23,8 @@ RUN \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
   rm -f /etc/rsk/node.conf && \
-  ln -s /etc/rsk/regtest.conf /etc/rsk/node.conf
-
+  ln -s /etc/rsk/regtest.conf /etc/rsk/node.conf && \
+  sed -i "s/cors: \"localhost\"/cors: \"*\"/g" /etc/rsk/node.conf
 # Supervisod CONF
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 

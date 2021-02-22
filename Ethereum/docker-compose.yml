@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   geth-ethereum:
-    command: ["--rpc", "--rpcapi", "eth,net", "--dev", "--rpcaddr", "0.0.0.0", "--datadir", "/datadir"]
+    command: ["--rpc", "--rpcapi", "eth,net", "--dev", "--rpcaddr", "0.0.0.0", "--rpccorsdomain", "*", "--datadir", "/datadir"]
     image: lekg1/geth:ethereum
     build: .
     expose:
