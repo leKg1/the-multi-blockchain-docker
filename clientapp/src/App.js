@@ -10,7 +10,7 @@ const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:4444"));
 
 const AdvStorageContract = new web3.eth.Contract(
   AdvancedStorageABI,
-  "0xdac5481925A298B95Bf5b54c35b68FC6fc2eF423"
+  "0x03F23ae1917722d5A27a2Ea0Bcc98725a2a2a49a"
 );
 
 const App = () => {
@@ -61,14 +61,14 @@ const App = () => {
 
   const getAllIds = async (e) => {
     const results = await AdvStorageContract.methods.getAll().call();
-    console.log("allIds", results);
+    console.log("all IDs:", results);
     const separatedResult = results.map((result) => result).join(", ");
     setOutput(separatedResult);
   };
 
   const getIdsLength = async (e) => {
     const result = await AdvStorageContract.methods.length().call();
-    console.log("length: ", result);
+    console.log("Length: ", result);
     setOutput(result);
   };
 
